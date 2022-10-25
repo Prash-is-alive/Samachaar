@@ -1,566 +1,94 @@
 import React, { Component } from 'react'
 import NewsItem from './NewsItem'
-import Spinner from './Spinner';
+import Spinner from './Spinner'
+import sampleOutput from '../SampleOutput.json'
 export class News extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      articles: [],
-      loading: false,
-      page: 1,
-      pageSize: 100,
-      header: this.capitalizeFirstLetter(this.props.category),
-    }
-    document.title = `${this.state.header} - Samachaar`
-  }
-
-  async updateNews() {
-    this.setState({ loading: true })
-    const url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=343dd794e3664220a50a41979efd060e&pageSize=${this.state.pageSize}&page=${this.state.page}`;
-    let data = await fetch(url);
-    let parsedData = await data.json();
-    console.log(parsedData);
-    this.setState({ articles: parsedData.articles, totalResults: parsedData.totalResults, loading: false })
-    if (parsedData.status !== "ok")
-      this.setState(
-        {
-          articles: [
-            {
-                "source": {
-                    "id": null,
-                    "name": "India TV News"
-                },
-                "author": "Written by India TV Lifestyle Desk",
-                "title": "Surya Grahan 2022: Visibility in India, timings & other details of the partial solar eclipse of the year - India TV News",
-                "description": "Surya Grahan 2022: The partial Solar Eclipse will take place after Diwali 2022. Most parts of the country will be able to witness the eclipse. Find out the date, duration, city-wise timings, when and where to watch, and other details inside.",
-                "url": "https://www.indiatvnews.com/astrology/surya-grahan-2022-visibility-in-india-timings-other-details-of-first-partial-solar-eclipse-of-the-year-2022-10-24-818520",
-                "urlToImage": "https://resize.indiatvnews.com/en/resize/newbucket/1200_-/2022/10/surya-grahan-1666594593.jpg",
-                "publishedAt": "2022-10-25T05:31:00Z",
-                "content": "Surya Grahan 2022: After Diwali on October 24, India will witness a partial Solar Eclipse which will be visible in the region covering Europe, the Middle East, the north-eastern parts of Africa, west… [+2082 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "The Siasat Daily"
-                },
-                "author": "Indo-Asian News Service",
-                "title": "Apple to roll out iOS 16 to iPad soon with Stage Manager - The Siasat Daily",
-                "description": "Recently, the company had announced to roll out iOS 16.1 update with new features, including 'Live Activities'",
-                "url": "https://www.siasat.com/apple-to-roll-out-ios-16-to-ipad-soon-with-stage-manager-2441613/",
-                "urlToImage": "https://cdn.siasat.com/wp-content/uploads/2022/10/ios-16.jpg",
-                "publishedAt": "2022-10-25T05:28:00Z",
-                "content": "San Francisco: Apple might roll out the iOS 16 features to the iPad soon along with the Stage Manager.\r\nThe tech giant has officially unveiled iOS 16.1 and iPadOS 16.1, which indicates that iOS 16 fe… [+1265 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "Hindustan Times"
-                },
-                "author": "Himani Jha",
-                "title": "Spotify user? Know how to cancel your Premium subscription easily - HT Tech",
-                "description": "Spotify Premium subscription can be cancelled anytime. You just have to follow these simple and easy steps.",
-                "url": "https://tech.hindustantimes.com/how-to/spotify-user-know-how-to-cancel-your-premium-subscription-easily-71666674599105.html",
-                "urlToImage": "https://images.hindustantimes.com/tech/img/2022/10/25/1600x900/SPOTIFY-EARNS-26_1660155468364_1660155468364_1666675489233_1666675489233.jpg",
-                "publishedAt": "2022-10-25T05:27:23Z",
-                "content": "Want to cancel your Spotify Premium subscription as you may be looking to try Apple Music, or Google Play Music or even Tidal? Well, you can always break-up with Spotify with some simple and easy tri… [+1278 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "Hindustan Times"
-                },
-                "author": "HT Entertainment Desk",
-                "title": "Aishwarya Rai, Abhishek Bachchan welcome guests at Amitabh's Diwali bash at home - Hindustan Times",
-                "description": "Amitabh Bachchan threw a star-studded bash at his home on Diwali after a gap of few years due to Covid-19 pandemic. All from Karan Johar to Gauri Khan attended the party. | Bollywood",
-                "url": "https://www.hindustantimes.com/entertainment/bollywood/aishwarya-rai-abhishek-bachchan-welcome-guests-at-amitabh-s-diwali-bash-at-home-101666669873646.html",
-                "urlToImage": "https://images.hindustantimes.com/img/2022/10/25/1600x900/amitabh_bachchan_diwali_party_1666673444499_1666673444685_1666673444685.jpg",
-                "publishedAt": "2022-10-25T05:04:54Z",
-                "content": "Amitabh Bachchan hosted a star-studded bash at his residence on Diwali after a gap of two years due to Covid-19 pandemic. All from filmmaker Karan Johar to Gauri Khan attended the party on Monday. Ai… [+2813 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "Hindustan Times"
-                },
-                "author": "HT Entertainment Desk",
-                "title": "Priyanka Chopra decks up in white ethnic look for Diwali dinner with Nick Jonas - Hindustan Times",
-                "description": "Nick Jonas held hands with Priyanka Chopra’s mother Madhu Chopra as the three stepped out for dinner in Los Angeles ahead of Diwali. Fans are gushing over sweet pictures of Nick with his mother-in-law. | Bollywood",
-                "url": "https://www.hindustantimes.com/entertainment/bollywood/priyanka-chopra-decks-up-in-white-ethnic-look-for-diwali-dinner-with-nick-jonas-madhu-chopra-in-la-101666671362216.html",
-                "urlToImage": "https://images.hindustantimes.com/img/2022/10/25/1600x900/Priyanka_Chopra_Diwali_dinner_1666671673545_1666671697457_1666671697457.jpeg",
-                "publishedAt": "2022-10-25T04:51:03Z",
-                "content": "Priyanka Chopra and Nick Jonas were spotted at a Los Angeles hotel ahead of Diwali festivities. The couple was joined by Priyankas mother Madhu Chopra. Pictures of the actor with Nick from inside the… [+2070 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "Livemint"
-                },
-                "author": "Livemint",
-                "title": "Garena Free Fire Max redeem codes for October 25, 2022: Check details | Mint - Mint",
-                "description": "Garena Free Fire Max offers various in-game items like skin, weapons, diamonds and pets to the players. The creators keep updating these in-game codes for players to redeem and unlock rewards daily.",
-                "url": "https://www.livemint.com/technology/tech-news/garena-free-fire-max-redeem-codes-for-october-25-2022-check-details-11666672819677.html",
-                "urlToImage": "https://images.livemint.com/img/2022/10/25/600x338/free_fire_max_1665463568806_1666672886060_1666672886060.jpg",
-                "publishedAt": "2022-10-25T04:42:52Z",
-                "content": "Garena Free Fire Max redeem codes consist of 12 characters, consisting of capital letters and digits- that can be used to obtain rewards like weapons, outfits and more without any cost. The multiplay… [+1719 chars]"
-            },
-            {
-                "source": {
-                    "id": "espn-cric-info",
-                    "name": "ESPN Cric Info"
-                },
-                "author": "Andrew McGlashan",
-                "title": "Tim Paine: I was hung out to dry by Cricket Australia - ESPNcricinfo",
-                "description": "In his autobiography, the former Australia Test captain details how he felt the board went back on their word by forcing him to resign",
-                "url": "https://www.espncricinfo.com/story/australia-news-tim-paine-says-he-felt-abandoned-by-cricket-australias-handling-of-his-texting-controversy-1341465",
-                "urlToImage": "https://img1.hscicdn.com/image/upload/f_auto/lsci/db/PICTURES/CMS/305400/305405.6.jpg",
-                "publishedAt": "2022-10-25T04:38:39Z",
-                "content": "NewsIn his autobiography, the former Australia Test captain details how he felt the board went back on their word by forcing him to resign"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "The Indian Express"
-                },
-                "author": "PTI",
-                "title": "Joe Biden hosts largest ever Diwali reception at White House - The Indian Express",
-                "description": "Joe Biden has appointed a record number of over 130 Indo-Americans at various levels of the administrations, Ajay Jain Bhutoria said.",
-                "url": "https://indianexpress.com/article/world/joe-bidens-host-diwali-reception-8228068/",
-                "urlToImage": "https://images.indianexpress.com/2022/10/joe-biden-diwali-reception.jpg",
-                "publishedAt": "2022-10-25T04:38:37Z",
-                "content": "US President Joe Biden and First Lady Dr Jill Biden on Monday hosted a Diwali reception at the White House in what they called the largest since the People’s House started celebrating the festival du… [+2792 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "Adda247.com"
-                },
-                "author": "Sumit Arora",
-                "title": "World Polio Day 2022: History, Theme and Significance - Adda247",
-                "description": "World Polio Day 2022 is observed every year on October 24 to raise awareness about the polio vaccination and eradication of polio from every corner of the world. The day is observed to commemorate the progress made by the world towards polio eradication. The …",
-                "url": "https://currentaffairs.adda247.com/world-polio-day-2022-history-theme-and-significance/",
-                "urlToImage": "https://st.adda247.com/https://wpassets.adda247.com/wp-content/uploads/multisite/sites/5/2022/10/25095053/23_10_2021-world_polio_day_2021-1.jpg",
-                "publishedAt": "2022-10-25T04:35:11Z",
-                "content": "World Polio Day 2022 is observed every year on October 24 to raise awareness about the polio vaccination and eradication of polio from every corner of the world. The day is observed to commemorate th… [+1883 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "NDTV News"
-                },
-                "author": null,
-                "title": "New UK PM Rishi Sunak's Indian Connection Explained In 10 Points - NDTV",
-                "description": "Rishi Sunak has scripted history by becoming Britain's first Indian-origin Prime Minister. His former boss Boris Johnson and Penny Mordaunt could not gather the support of 100 MPs needed to stand in the elections.",
-                "url": "https://www.ndtv.com/world-news/rishi-sunaks-indian-connection-explained-in-10-points-3458933",
-                "urlToImage": "https://c.ndtvimg.com/2022-07/1fg0l4t_rishi-sunak-family_625x300_24_July_22.jpg",
-                "publishedAt": "2022-10-25T04:35:00Z",
-                "content": "<li>Rishi Sunak took oath as MP from Yorkshire, on the Bhagavad Gita in the Parliament. He was the first UK parliamentarian to do so.\r\n</li><li>Both his parents are of Indian descent. Sunak's parents… [+1454 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "NDTV News"
-                },
-                "author": null,
-                "title": "\"Devastated\": Biocon Chief Kiran Mazumdar Shaw Mourns Husband - NDTV",
-                "description": "Biocon executive chairperson Kiran Mazumdar Shaw this morning shared a post on Twitter remembering her husband John Shaw.",
-                "url": "https://www.ndtv.com/india-news/devastated-biocon-chief-kiran-mazumdar-shaw-mourns-husbands-death-3460081",
-                "urlToImage": "https://c.ndtvimg.com/2022-10/44flnq0g_kiran-john_625x300_25_October_22.jpg",
-                "publishedAt": "2022-10-25T04:30:10Z",
-                "content": "The Scottish national married Kiran Mazumdar Shaw in 1998.\r\nBengaluru: Biocon executive chairperson Kiran Mazumdar Shaw this morning shared a post on Twitter remembering her husband John Shaw.\r\nJohn … [+1048 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "Moneycontrol"
-                },
-                "author": "Chandra R Srikanth",
-                "title": "Confident he will do his best for UK: Infosys founder Narayana Murthy reacts to son-in-law Rishi Sunak... - Moneycontrol",
-                "description": "“Congratulations to Rishi. We are proud of him and we wish him success. We are confident he will do his best for the people of the United Kingdom,&quot; Murthy said in an email statement to Moneycontrol.",
-                "url": "https://www.moneycontrol.com/news/trends/current-affairs-trends/confident-he-will-do-his-best-for-uk-infosys-founder-narayana-murthy-reacts-to-son-in-law-rishi-sunak-becoming-uk-pm-9387001.html",
-                "urlToImage": "https://images.moneycontrol.com/static-mcnews/2021/07/Narayana-Murthy-770x433.jpg",
-                "publishedAt": "2022-10-25T04:18:09Z",
-                "content": "Infosys founder NR Narayana Murthy congratulated son-in-law Rishi Sunak on becoming the United Kingdoms Prime Minister, the first premier of Indian origin to take charge of the nation amid challengin… [+1655 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "NDTV News"
-                },
-                "author": "NDTV Sports Desk",
-                "title": "\"When India Win A Game vs Pakistan...\": Sunil Gavaskar On His Viral Celebration - NDTV Sports",
-                "description": "While standing near the boundary rope on the last ball of the India-Pakistan match, Sunil Gavaskar started jumping in joy as soon as Ravichandran Ashwin hit the winning run",
-                "url": "https://sports.ndtv.com/t20-world-cup-2022/when-india-win-a-game-vs-pakistan-sunil-gavaskar-on-his-viral-celebration-3460056",
-                "urlToImage": "https://c.ndtvimg.com/2022-10/4g4jn548_sunil-gavaskar-twitter-_625x300_24_October_22.jpg?im=FitAndFill,algorithm=dnn,width=1200,height=675",
-                "publishedAt": "2022-10-25T04:01:37Z",
-                "content": "India defeated Pakistan by four wickets in their 2022 T20 World Cup campaign opener at Melbourne Cricket Ground on Sunday. India skipper Rohit Sharma won the toss and opted to bowl first in the game.… [+1613 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "LatestLY"
-                },
-                "author": "Molly Swamy",
-                "title": "Fascinating Supernova! NASA Shares Incredible Picture of the Remains Exploded Star; Viral Image Wows - LatestLY",
-                "description": "This time, NASA shared a stunning image of the remains of a supernova on Instagram, which is 9,000 light-years from Earth. The never-before-seen image broke the internet and went crazy viral. Check out the pic below.",
-                "url": "https://www.latestly.com/socially/social-viral/fascinating-supernova-nasa-shares-incredible-picture-of-the-remains-exploded-star-viral-image-wows-netizens-4373963.html",
-                "urlToImage": "https://st1.latestly.com/wp-content/uploads/2022/10/09-1-1-784x441.jpg",
-                "publishedAt": "2022-10-25T03:37:37Z",
-                "content": "NASA has once again stunned the internet with a spectacular picture of the remains of a supernova. The Chandra X-ray Observatory telescope captured the image. Posted on Instagram, the pic went viral,… [+852 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "Hindustan Times"
-                },
-                "author": "HT Correspondent",
-                "title": "Delhi likely to record cleanest air day post-Diwali in eight years - Hindustan Times",
-                "description": "Calm wind conditions and an increased stubble burning led to this deterioration even as the ban on firecrackers was flouted from Monday evening | Latest News Delhi",
-                "url": "https://www.hindustantimes.com/cities/delhi-news/delhis-aqi-worsens-to-very-poor-category-1st-time-this-season-on-diwali-101666666838705.html",
-                "urlToImage": "https://images.hindustantimes.com/img/2022/10/25/1600x900/c5b31e4c-5410-11ed-b19a-62667e9b4e12_1666669377885.jpg",
-                "publishedAt": "2022-10-25T03:00:38Z",
-                "content": "Delhi is likely to record its cleanest air day post-Diwali in eight years based on the Air Quality Index (AQI) of 326 at 7am on Tuesday. The previous lowest was in 2015 when the AQI was 360 (very poo… [+2489 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "News18"
-                },
-                "author": "Entertainment Bureau",
-                "title": "Kareena Kapoor Wins Internet With Her Honest Diwali Family Pic Showing Jeh Throwing A Tantrum - News18",
-                "description": "Kareena Kapoor has the internet in splits after she shared an honest picture of Jeh Ali Khan throwing a tantrum during a family picture shoot on Diwali.",
-                "url": "https://www.news18.com/news/movies/kareena-kapoor-wins-internet-with-her-honest-diwali-family-pic-showing-jeh-throwing-a-tantrum-6235117.html",
-                "urlToImage": "https://images.news18.com/ibnlive/uploads/2022/10/kareena-jeh-saif-taimur-166666631316x9.jpg",
-                "publishedAt": "2022-10-25T02:53:12Z",
-                "content": "Actress Kareena Kapoor is reminding the internet that although shes a star, she is a mother too, and like every mother, she has to deal with her childrens tantrums as well. An example of this was ser… [+1667 chars]"
-            },
-            {
-                "source": {
-                    "id": "cnn",
-                    "name": "CNN"
-                },
-                "author": "Story by Reuters",
-                "title": "Indonesia considers prosecutions over cough syrup suspected of links to child deaths - CNN",
-                "description": "Indonesia's food and drugs agency on Monday said it may pursue criminal action against two pharmaceutical firms that made products linked to acute kidney injury (AKI), amid a spike in cases and deaths among children this year.",
-                "url": "https://www.cnn.com/2022/10/24/asia/indonesia-pharma-firms-prosecution-cough-syrup-child-deaths-intl-hnk/index.html",
-                "urlToImage": "https://media.cnn.com/api/v1/images/stellar/prod/221024190812-02-indonesia-cough-syrup-1020.jpg?c=16x9&q=w_800,c_fill",
-                "publishedAt": "2022-10-25T02:29:00Z",
-                "content": "Indonesias food and drugs agency on Monday said it may pursue criminal action against two pharmaceutical firms that made products linked to acute kidney injury (AKI), amid a spike in cases and deaths… [+1486 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "Livemint"
-                },
-                "author": "Sounak Mukhopadhyay",
-                "title": "10 times more likely to die of cardiovascular blood clots: Study reveals terrifying data of non-hospitalised Covid patie | Mint - Mint",
-                "description": "‘There is nothing about Covid that is normal,’ said Ziyad Al-Aly, director of research and development at the Veterans Affairs St. Louis Health Care System.",
-                "url": "https://www.livemint.com/news/world/10-times-more-likely-to-die-of-cardiovascular-blood-clots-study-reveals-terrifying-data-of-non-hospitalised-covid-patients-11666656264554.html",
-                "urlToImage": "https://images.livemint.com/img/2022/10/25/600x338/COVID-heike-trautmann-DJxiHajcwKA-_1666663728019_1666663735245_1666663735245.jpg",
-                "publishedAt": "2022-10-25T02:10:44Z",
-                "content": "COVID-19 is associated with a higher risk of severe blood clots that begin in patients' veins and spread to the heart, lungs, and other regions of the body, according to a UK study that emphasises th… [+2184 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "Hindustan Times"
-                },
-                "author": "HT Sports Desk",
-                "title": "Akram, Waqar identify India's next captain after heroics vs Pakistan in T20 WC - Hindustan Times",
-                "description": "After the match, Pakistan cricket legends, Wasim Akram and Waqar Younis were left utterly impressed by the manner in which an India star performed in the game against Pakistan and identified him as the “next Indian captain”. | Cricket",
-                "url": "https://www.hindustantimes.com/cricket/hes-main-force-of-the-team-has-calm-influence-on-rohit-wasim-akram-waqar-younis-identify-india-s-next-captain-after-pakistan-heroics-in-t20-world-cup-101666606319750.html",
-                "urlToImage": "https://images.hindustantimes.com/img/2022/10/24/1600x900/akram_waqar_1666606820737_1666606827814_1666606827814.jpg",
-                "publishedAt": "2022-10-25T01:47:41Z",
-                "content": "It was a memorable start for the Indian team who scripted a sensational four-wicket win against Pakistan in their 2022 T20 World Cup opener on Sunday. Virat Kohli hogged all the limelight with his te… [+1828 chars]"
-            },
-            {
-                "source": {
-                    "id": "the-times-of-india",
-                    "name": "The Times of India"
-                },
-                "author": "ETMarkets.com",
-                "title": "SGX Nifty down 30 points; here's what changed for market while you were sleeping - Economic Times",
-                "description": "Asian share markets beyond China showed signs of strength on Tuesday following a rally in US stocks buoyed by optimism from early corporate earnings reports.",
-                "url": "https://economictimes.indiatimes.com/markets/stocks/news/sgx-nifty-down-30-points-heres-what-changed-for-market-while-you-were-sleeping/articleshow/95069821.cms",
-                "urlToImage": "https://img.etimg.com/thumb/msid-95069859,width-1070,height-580,imgsize-111674,overlay-etmarkets/photo.jpg",
-                "publishedAt": "2022-10-25T01:31:00Z",
-                "content": "Indian equities may extend gains made during muhurat trading session, but likely selling in few index heavyweights could limit the upside. \r\nHere's breaking down the pre-market actions:\r\nSTATE OF THE… [+2873 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "Hindustan Times"
-                },
-                "author": "HT News Desk",
-                "title": "'Very disturbing circumstances': India on abduction of two nationals in Kenya - Hindustan Times",
-                "description": "The missing persons include a 48-year-old entertainment industry veteran and Balaji Telefilms’s ex-COO ( Chief Operations Officer) - Zulfiqar Khan. | Latest News India",
-                "url": "https://www.hindustantimes.com/india-news/very-disturbing-circumstances-india-on-abduction-of-two-nationals-in-kenya-101666659631214.html",
-                "urlToImage": "https://images.hindustantimes.com/img/2022/10/25/1600x900/mea_spokesperson_kenya-indian-nationals-missing_1666660608976_1666660609193_1666660609193.jpg",
-                "publishedAt": "2022-10-25T01:21:21Z",
-                "content": "India on Monday conveyed its deep concern to Kenyan President William Ruto over the abduction of its two nationals, and urged for an expedited probe into the matter. The ministry of external affairs … [+1550 chars]"
-            },
-            {
-                "source": {
-                    "id": "the-times-of-india",
-                    "name": "The Times of India"
-                },
-                "author": "New York Times",
-                "title": "Webb Space Telescope shows how a star is born in great cosmic nursery - Economic Times",
-                "description": "Now, the James Webb Space Telescope, Hubble's successor, has turned its infrared eyes to see through those same columns and inspect the newborns still in their dusty cribs. In the new view of the Pillars released on Wednesday, cherry-red streaks and waves are…",
-                "url": "https://economictimes.indiatimes.com/news/science/webb-shows-how-a-star-is-born-in-great-cosmic-nursery/articleshow/95069662.cms",
-                "urlToImage": "https://img.etimg.com/thumb/msid-95069685,width-1070,height-580,imgsize-138894,overlay-economictimes/photo.jpg",
-                "publishedAt": "2022-10-25T01:01:00Z",
-                "content": "Yes, it's full of stars, and stars to be. \r\nTwenty-seven years ago, in 1995, the Hubble Space Telescope wowed the world with a cosmic landscape called Pillars of Creation. The image revealed towering… [+2967 chars]"
-            },
-            {
-                "source": {
-                    "id": "the-times-of-india",
-                    "name": "The Times of India"
-                },
-                "author": "ET HealthWorld",
-                "title": "L'Oreal's hair straighteners caused woman's cancer, lawsuit claims - ETHealthWorld",
-                "description": "The lawsuit, filed Friday in federal court in Chicago, came days after a study from the U.S. National Institute of Environmental Health Safety (NIEHS) finding that hair-straightening products may significantly increase the risk of uterine cancer among frequen…",
-                "url": "https://health.economictimes.indiatimes.com/news/industry/loreals-hair-straighteners-caused-womans-cancer-lawsuit-claims/95068676",
-                "urlToImage": "https://etimg.etb2bimg.com/thumb/msid-95068676,imgsize-2183269,width-1200,height-628,overlay-ethealthworld/l-oreal-s-hair-straighteners-caused-woman-s-cancer-lawsuit-claims.jpg",
-                "publishedAt": "2022-10-25T00:39:00Z",
-                "content": "By Brendan Pierson- L'Oreal SA has been sued by a Missouri woman who alleges she developed uterine cancer as a result of using the French cosmetic company's hair-straightening products.\r\nThe lawsuit,… [+1466 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "Livemint"
-                },
-                "author": null,
-                "title": "Travel: On an ocean safari to spot blue whales in the Pacific - Mint Lounge",
-                "description": "",
-                "url": "https://lifestyle.livemint.com/news/big-story/travel-on-an-ocean-safari-to-spot-blue-whales-in-the-pacific-111666594287765.html",
-                "urlToImage": "https://images.livemint.com/img/2022/10/24/1140x641/blue_whale_sri_lanka_1666594579915_1666594669202_1666594669202.jpg",
-                "publishedAt": "2022-10-25T00:34:47Z",
-                "content": "A huge tail emerged from the sea, scarily close to rails of the boat in which we stood. There she is, our Blue Whale, the captain of our boat said in a hushed voice that held a note of triumph. He ha… [+6481 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "Livemint"
-                },
-                "author": "Bloomberg",
-                "title": "Mukesh Ambani's Reliance will lean on its $200-billion balance sheet, exploit cost-of-capital advantage - here's how | Mint - Mint",
-                "description": "Consumers' digital footprints could help Mukesh Ambani's financial services ambition and unlock shareholder value.",
-                "url": "https://www.livemint.com/news/india/mukesh-ambani-s-reliance-will-lean-on-its-200-billion-balance-sheet-exploit-cost-of-capital-advantage-here-s-how-11666656082234.html",
-                "urlToImage": "https://images.livemint.com/img/2022/10/25/600x338/f31455c8-4b9f-11ed-9783-ebef683bd543_1666656801023_1666656801023_1666656825311_1666656825311.jpg",
-                "publishedAt": "2022-10-25T00:19:54Z",
-                "content": "To record all the words ever spoken by humankind, five exabytes of storage would be enough. Indian tycoon Mukesh Ambanis telecom customers used up nearly six times as much data last quarter. As the b… [+5385 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "NDTV News"
-                },
-                "author": null,
-                "title": "7 Killed, Thousands Evacuated As Cyclone Sitrang Hits Bangladesh - NDTV",
-                "description": "As cyclone Sitrang battered parts of Bangladesh on Monday, at least seven people lost their lives, including three members of a family, in the collapse of a brick railing and trees, media reports said.",
-                "url": "https://www.ndtv.com/world-news/cyclone-sitrang-kills-7-as-it-hits-bangladesh-thousands-evacuated-3459885",
-                "urlToImage": "https://c.ndtvimg.com/2019-11/lqir08l_cyclone-generic_625x300_09_November_19.jpg",
-                "publishedAt": "2022-10-25T00:12:28Z",
-                "content": "Cyclone Sitrang: Thousands of people have been evacuated from Cox's Bazar coast in Bangladesh.\r\nDhaka: As cyclone Sitrang battered parts of Bangladesh on Monday, at least seven people lost their live… [+2433 chars]"
-            },
-            {
-                "source": {
-                    "id": "google-news",
-                    "name": "Google News"
-                },
-                "author": null,
-                "title": "Vice-Chancellors can continue till Governor takes decision on show cause notice, says Kerala High Court - The Hindu",
-                "description": null,
-                "url": "https://news.google.com/__i/rss/rd/articles/CBMimAFodHRwczovL3d3dy50aGVoaW5kdS5jb20vbmV3cy9uYXRpb25hbC9rZXJhbGEva2VyYWxhLXZpY2UtY2hhbmNlbGxvcnMtY2FuLWNvbnRpbnVlLXRpbGwtZ292ZXJub3ItdGFrZXMtZGVjaXNpb24tb24tc2hvdy1jYXVzZS1ub3RpY2UvYXJ0aWNsZTY2MDUxOTAwLmVjZdIBAA?oc=5",
-                "urlToImage": null,
-                "publishedAt": "2022-10-24T21:35:00Z",
-                "content": null
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "Hindustan Times"
-                },
-                "author": "HT Entertainment Desk",
-                "title": "Shah Rukh Khan visits office with Gauri Khan and AbRam on Diwali - Hindustan Times",
-                "description": "Shah Rukh Khan has stepped out on Diwali with AbRam Khan and Gauri Khan. The family was snapped arriving at their office in Mumbai. | Bollywood",
-                "url": "https://www.hindustantimes.com/entertainment/bollywood/shah-rukh-khan-visits-office-with-gauri-khan-and-abram-on-diwali-101666622152417.html",
-                "urlToImage": "https://images.hindustantimes.com/img/2022/10/24/1600x900/srk_1666622647201_1666622647386_1666622647386.jpg",
-                "publishedAt": "2022-10-24T14:55:11Z",
-                "content": "Actor Shah Rukh Khan made a rare appearance in Mumbai. On Diwali, he was snapped arriving at his office with wife Gauri Khan and their younger son, AbRam. Unlike other celebrities during the festive … [+1652 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "Zoom"
-                },
-                "author": "Kusumika Das",
-                "title": "PM Narendra Modi sings Vande Mataram as he celebrates Diwali in Kargil, AR Rahman re-shares video with UNIQUE - Times Now",
-                "description": "Prime Minister Narendra Modi went to Kargil to celebrate the special day with the soldiers. He also sang Vande Mataram with them. Singer AR Rahman re-shared the video with a unique caption. Read on to know more!",
-                "url": "https://www.timesnownews.com/entertainment-news/pm-narendra-modi-sings-vande-mataram-as-he-celebrates-diwali-in-kargil-ar-rahman-re-shares-video-with-unique-caption-bollywood-news-entertainment-news-article-95067180",
-                "urlToImage": "https://static.tnn.in/thumb/msid-95067180,imgsize-100,width-1280,height-720,resizemode-75/95067180.jpg",
-                "publishedAt": "2022-10-24T14:44:00Z",
-                "content": "Malaika Arora-Arjun Kapoor, Ananya Panday, Aryan Khan and other bollywood celebs light up Sonam Kapoor's Diwali bash"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "Zee Business"
-                },
-                "author": "ZeeBiz WebTeam",
-                "title": "Diwali Muhurat Trading: Thumping start for Samvat 2079; Sensex up over 500-points, Nifty ends with g - Zee Business",
-                "description": "UPDATES: Muhurat Trading 2022, Diwali Session - On this auspicious day of Diwali and beginning of S",
-                "url": "https://www.zeebiz.com/market-news/live-updates-muhurat-trading-2022-time-today-diwali-session-stocks-to-buy-rules-best-stocks-picks-session-puja-timings-buy-or-sell-settlement-bse-nse-204528",
-                "urlToImage": "https://cdn.zeebiz.com/sites/default/files/2022/10/24/206944-nse.JPG",
-                "publishedAt": "2022-10-24T14:14:51Z",
-                "content": "Commodities Trading: Snapshot\r\nTrading Stretegy: Anuj Gupta from IIFL Securities\r\nBUY MCX GOLD DEC AT 50400 SL 50200 TARGET 50800\r\nBUY MCX SILVER DEC AT 57300 SL 56800 TARGET 58000\r\nBUY MCZ CRUDEOIL … [+532 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "Space.com"
-                },
-                "author": "Tereza Pultarova",
-                "title": "How the gamma-ray burst of the century surprised spacecraft operators - Space.com",
-                "description": "Europe's galaxy mapper Gaia sent a strange signal that ground controllers first couldn't explain.",
-                "url": "https://www.space.com/gamma-ray-burst-surprises-satellite-operators",
-                "urlToImage": "https://cdn.mos.cms.futurecdn.net/KXhYs62f7EpZxAU7tGCjyL-1200-80.jpg",
-                "publishedAt": "2022-10-24T14:03:46Z",
-                "content": "A fleet of space telescopes unexpectedly detected the record-breaking gamma-ray burst GRB221009A onOct.9, sparking concern among spacecraft operators about the blast's odd signal. \r\nThe European Spac… [+2964 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "India Today"
-                },
-                "author": "Saikiran Kannan",
-                "title": "How is the Coimbatore cylinder blast connected to Sri Lanka's Easter bombings? - India Today",
-                "description": "Reports showed the accused in the Coimbatore case was planning an operation similar to Sri Lanka's Easter bombings in the city.",
-                "url": "https://www.indiatoday.in/diu/story/how-is-the-coimbatore-cylinder-blast-connected-to-sri-lankas-easter-bombings-2289042-2022-10-24",
-                "urlToImage": "https://akm-img-a-in.tosshub.com/indiatoday/images/story/202210/coimbatore_cylinder_blast_sri_lanka_easter_bombing-sixteen_nine.jpg?VersionId=0fFwvSQtJqMdydHhqFd1dbCVh.mEtYu4",
-                "publishedAt": "2022-10-24T13:45:58Z",
-                "content": "By Saikiran Kannan: A 25-year-old man was killed in a gas cylinder blast in Tamil Nadu's Coimbatore on Sunday, October 23. The police identified the deceased as Jameesha Mubeen who was quizzed by NIA… [+5752 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "Eurasiantimes.com"
-                },
-                "author": "Parth Satam",
-                "title": "Deadlier Than Shahed-136, Ukraine Says Iran Now Selling Its 2000 Km Range Arash-2 Drones To Russia - EurAsian Times",
-                "description": "Ukraine has alleged Russia has now purchased an even more advanced Iranian drone, the Arash-2, with some Ukrainian military watchers claiming Iranian experts are advising Russia on the ground. ‘Catastrophic Failure’: What Caused Russia’s Brand New Su-30 Fight…",
-                "url": "https://eurasiantimes.com/deadlier-than-shahed-136-ukraine-says-iran-planning-to-sell-2000/",
-                "urlToImage": "https://eurasiantimes.com/wp-content/uploads/2022/10/Iran-Arash-2-drone-1.jpg",
-                "publishedAt": "2022-10-24T13:02:18Z",
-                "content": "Ukraine has alleged Russia has now purchased an even more advanced Iranian drone, the Arash-2, with some Ukrainian military watchers claiming Iranian experts are advising Russia on the ground.\r\nRussi… [+5286 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "India.com"
-                },
-                "author": "India.com Sports Desk",
-                "title": "Highlights SA vs ZIM, T20 World Cup 2022: NO RESULT as Match Called-Off Due to Rain - India.com",
-                "description": "South Africa vs Zimbabwe T20 World Cup 2022 Cricket Score:",
-                "url": "https://www.india.com/sports/south-africa-vs-zimbabwe-highlights-cricket-score-t20-world-cup-2022-18th-match-super-12-group-2-bellerive-oval-hobart-rain-start-time-sa-v-zim-ball-by-ball-commentary-live-streaming-hotstar-rabada-li-5703122/",
-                "urlToImage": "https://static.india.com/wp-content/uploads/2022/10/WhatsApp-Image-2022-10-24-at-1.36.30-PM.jpeg",
-                "publishedAt": "2022-10-24T13:02:18Z",
-                "content": "NO RESULT as Match Called-Off Due to Rain. South Africa takes on Zimbabwe on Monday in the second game of the day at the Bellerive Oval in Hobart.Also Read - Hunt For New West Indies Coach Likely To … [+2656 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "Forbes"
-                },
-                "author": "Steven Salzberg",
-                "title": "Gain-Of-Function Experiments At Boston University Create A Deadly New Covid-19 Virus. Who Thought This Was A Good Idea? - Forbes",
-                "description": "After all the controversy over the past 2 years about gain-of-function research on viruses, it's shocking to learn that scientists at Boston University have just created a brand-new Covid-19 virus that causes 80% mortality in lab mice.",
-                "url": "https://www.forbes.com/sites/stevensalzberg/2022/10/24/gain-of-function-experiments-at-boston-university-create-a-deadly-new-covid-19-virus-who-thought-this-was-a-good-idea/",
-                "urlToImage": "https://imageio.forbes.com/specials-images/imageserve/635572009e6d9073f9e382e3/0x0.jpg?format=jpg&width=1200",
-                "publishedAt": "2022-10-24T11:30:00Z",
-                "content": "KIRKLAND, WASHINGTON - MARCH 12: A cleaning crew wearing protective clothing (PPE), takes ... [+] disinfecting equipment into the Life Care Center on March 12, 2020 in Kirkland, Washington. The nursi… [+9367 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "Mid-day"
-                },
-                "author": null,
-                "title": "India records 1,334 new Covid-19 cases, 16 deaths - mid-day.com",
-                "description": "The death toll has climbed to 5,28,977 with 16 fatalities, which include 12 deaths reconciled by Kerala",
-                "url": "http://www.mid-day.com/news/india-news/article/india-records-1334-new-covid-19-cases-16-deaths-23252023",
-                "urlToImage": "https://images.mid-day.com/images/images/2022/oct/Covid-19-7-iStock_d.jpg",
-                "publishedAt": "2022-10-24T04:42:00Z",
-                "content": "The death toll has climbed to 5,28,977 with 16 fatalities, which include 12 deaths reconciled by Kerala\r\nA health worker collects a swab sample for Covid-19 test. File Pic\r\nIndia has recorded 1,334 f… [+2014 chars]"
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "Abplive.com"
-                },
-                "author": "ABP News Bureau",
-                "title": "Diwali 2022: President Murmu, PM Modi And Others Greet Citizens On Occasion Of Festival Of Light - ABP Live",
-                "description": "“Happy Diwali to all the countrymen. May this festival of lights bring happiness, health and prosperity in everyone's life,” wrote Union Home Minister Amit Shah.",
-                "url": "https://news.abplive.com/news/india/diwali-2022-president-murmu-pm-modi-and-others-greet-citizens-on-occasion-of-festival-of-light-1559659",
-                "urlToImage": "https://feeds.abplive.com/onecms/images/uploaded-images/2022/10/24/1eada886eb3cbcda539dd68b055f7f141666581055186272_original.png?impolicy=abp_cdn&imwidth=1200&imheight=628",
-                "publishedAt": "2022-10-24T03:11:30Z",
-                "content": "New Delhi: Prime Minister Narendra Modi, President Droupadi Murmu and other political leaders extended their wishes on the occasion of Diwali today which is being celebrated across the country. Prime… [+2083 chars]"
-            },
-            {
-                "source": {
-                    "id": "google-news",
-                    "name": "Google News"
-                },
-                "author": null,
-                "title": "OnePlus Smartphones that Now Support Jio 5G - TelecomTalk",
-                "description": null,
-                "url": "https://news.google.com/__i/rss/rd/articles/CBMiTWh0dHBzOi8vdGVsZWNvbXRhbGsuaW5mby90aGVzZS0zLXNtYXJ0cGhvbmVzLWZyb20tb25lcGx1cy1ub3ctc3VwcG9ydC81OTA1NjEv0gEA?oc=5",
-                "urlToImage": null,
-                "publishedAt": "2022-10-24T03:04:03Z",
-                "content": null
-            }
-        ]
+    constructor(props) {
+        super(props);
+        this.state = {
+            apiKey: '2b02afb772cd48fd9b145bacda77a5da',
+            articles: [],
+            loading: false,
+            page: 1,
+            pageSize: 25,
+            header: this.capitalizeFirstLetter(this.props.category),
+            country: 'in',
         }
-      )
-  }
+        document.title = `${this.state.header} - Samachaar`
+    }
 
-  async componentDidMount() {
-    this.updateNews()
-  }
-  handleNextClick = async () => {
-    this.setState({ page: this.state.page + 1 })
-    this.updateNews()
-  }
-  handlePrevClick = async () => {
-    this.setState({ page: this.state.page - 1 })
-    this.updateNews()
-  }
+    async updateNews() {
+        this.setState({ loading: true })
+        const url = `https://newsapi.org/v2/top-headlines?apiKey=${this.state.apiKey}&country=${this.state.country}&category=${this.props.category}&pageSize=${this.state.pageSize}&page=${this.state.page}`;
+        let data = await fetch(url);
+        let parsedData = await data.json();
+        console.log(parsedData);
+        this.setState({ articles: parsedData.articles, totalResults: parsedData.totalResults, header: this.capitalizeFirstLetter(this.props.category), loading: false })
+        if (parsedData.status !== "ok")
+            this.setState({ articles: sampleOutput.articles })
+    }
+    async searchNews(query) {
+        this.setState({ loading: true, header: query, })
+        if (query === '' || query === ' ') {
+            query = '';
+            this.updateNews();
+            return;
+        }
+        else {
+            const url = `https://newsapi.org/v2/everything?q=${query}&apiKey=${this.state.apiKey}`;
+            let data = await fetch(url);
+            let parsedData = await data.json();
+            console.log(parsedData);
+            this.setState({ articles: parsedData.articles, totalResults: parsedData.totalResults, loading: false })
+            if (parsedData.status !== "ok")
+                this.setState({ articles: sampleOutput.articles })
+            if (this.state.totalResults === 0) {
+                return <>
+                    NO RESULTS FOUND
+                </>
+            }
+        }
+    }
 
-  capitalizeFirstLetter = (string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
+    async componentDidMount() {
+        this.updateNews()
+    }
+    handleNextClick = async () => {
+        this.setState({ page: this.state.page + 1 })
+        this.updateNews()
+    }
+    handlePrevClick = async () => {
+        this.setState({ page: this.state.page - 1 })
+        this.updateNews()
+    }
 
-  render() {
-    return (
-      <>
-        <h1 className='text-center heading my-5' >SAMACHAAR - {this.state.header}</h1>
-        {this.state.loading && <Spinner />}
-        <div className='container d-flex justify-content-around flex-wrap align-items-center'>
-          {!this.state.loading && this.state.articles.map((ele) => {
-            return <div key={ele.url}>
-              <NewsItem imgUrl={ele.urlToImage} title={ele.title} desc={ele.description} url={ele.url} author={ele.author} publishedAt={ele.publishedAt} name={ele.source.name} />
-            </div>
-          })}
-        </div>
-        <div className=' d-flex justify-content-between m-4'>
-          <button type="button" className="btn btn-primary" title='Previous' disabled={this.state.page <= 1 ? true : false} onClick={this.handlePrevClick}>&larr;</button>
-          <button type="button" className="btn btn-primary" title='Next' disabled={(this.state.page + 1 > Math.ceil(this.state.totalResults / this.state.pageSize)) ? true : false} onClick={this.handleNextClick}>&rarr;</button>
-        </div>
+    capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 
-      </>
-    )
-  }
+    render() {
+        return (
+            <>
+                <h1 className='text-center heading my-5' >SAMACHAAR - {this.state.header}</h1>
+                <form className="d-flex container" role="search">
+                    <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" onChange={(e) => { console.log(e.target.value); this.searchNews(e.target.value) }} />
+                </form>
+                {this.state.loading && <Spinner />}
+                <div className='container d-flex justify-content-around flex-wrap align-items-center'>
+                    {!this.state.loading && this.state.articles.map((ele) => {
+                        return <div key={ele.url}>
+                            <NewsItem imgUrl={ele.urlToImage} title={ele.title} desc={ele.description} url={ele.url} author={ele.author} publishedAt={ele.publishedAt} name={ele.source.name} />
+                        </div>
+                    })}
+                </div>
+                <div className=' d-flex justify-content-between m-4'>
+                    <button type="button" className="btn btn-primary" title='Previous' disabled={this.state.page <= 1 ? true : false} onClick={this.handlePrevClick}>&larr;</button>
+                    <button type="button" className="btn btn-primary" title='Next' disabled={(this.state.page + 1 > Math.ceil(this.state.totalResults / this.state.pageSize)) ? true : false} onClick={this.handleNextClick}>&rarr;</button>
+                </div>
+
+            </>
+        )
+    }
 }
-
-export default News
+export default News;
