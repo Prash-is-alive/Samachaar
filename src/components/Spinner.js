@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 export class Spinner extends Component {
     render() {
         return (
@@ -17,7 +16,7 @@ export class Spinner extends Component {
                             <span className="placeholder col-6"></span>
                             <span className="placeholder col-8"></span>
                         </p>
-                        <Link  tabIndex="-1" className="btn btn-primary disabled placeholder col-6"></Link>
+                        <button  tabIndex="-1" className="btn btn-primary disabled placeholder col-6"></button>
                     </div>
                 </div>
                 <div className="card my-3" aria-hidden={true} style={{ width: "18rem" }}>
@@ -33,7 +32,7 @@ export class Spinner extends Component {
                             <span className="placeholder col-6"></span>
                             <span className="placeholder col-8"></span>
                         </p>
-                        <Link tabIndex="-1" className="btn btn-primary disabled placeholder col-6"></Link>
+                        <button tabIndex="-1" className="btn btn-primary disabled placeholder col-6"></button>
                     </div>
                 </div>
                 <div className="card my-3" aria-hidden={true} style={{ width: "18rem" }}>
@@ -49,7 +48,7 @@ export class Spinner extends Component {
                             <span className="placeholder col-6"></span>
                             <span className="placeholder col-8"></span>
                         </p>
-                        <Link tabIndex="-1" className="btn btn-primary disabled placeholder col-6"></Link>
+                        <button tabIndex="-1" className="btn btn-primary disabled placeholder col-6"></button>
                     </div>
                 </div>
                 <div className="card my-3" aria-hidden={true} style={{ width: "18rem" }}>
@@ -65,7 +64,7 @@ export class Spinner extends Component {
                             <span className="placeholder col-6"></span>
                             <span className="placeholder col-8"></span>
                         </p>
-                        <Link  tabIndex="-1" className="btn btn-primary disabled placeholder col-6"></Link>
+                        <button  tabIndex="-1" className="btn btn-primary disabled placeholder col-6"></button>
                     </div>
                 </div>
             </div>

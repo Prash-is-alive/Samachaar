@@ -4,35 +4,35 @@ import Navbar from './components/Navbar';
 import News from './components/News';
 import {
   Route,
-  Routes,
 } from "react-router-dom";
-
+import Footer from './components/Footer';
 export default class App extends Component {
   render() {
     return (
       <>
         <Navbar />
-        <Routes>
-          <Route exact path="/" element={<News pageSize={10} category="general" />} />
-        </Routes>
-        <Routes>
-          <Route exact path='/business' element={<News pageSize={10} category="business" />} />
-        </Routes>
-        <Routes>
-          <Route exact path='/entertainment' element={<News pageSize={10} category="entertainment" />} />
-        </Routes>
-        <Routes>
-          <Route exact path='/health' element={<News pageSize={10} category="health" />} />
-        </Routes>
-        <Routes>
-          <Route exact path='/science' element={<News pageSize={10} category="science" />} />
-        </Routes>
-        <Routes>
-          <Route exact path='/sports' element={<News pageSize={10} category="sports" />} />
-        </Routes>
-        <Routes>
-          <Route exact path='/technology' element={<News pageSize={10} category="technology" />} />
-        </Routes>
+        <Route exact path='/'>
+          <News category="general" />
+        </Route>
+        <Route path='/business'>
+          <News category="business" />
+        </Route>
+        <Route path='/entertainment'>
+          <News category="entertainment" />
+        </Route>
+        <Route path='/technology'>
+          <News category="technology" />
+        </Route>
+        <Route path='/health'>
+          <News category="health" />
+        </Route>
+        <Route path='/science'>
+          <News category="science" />
+        </Route>
+        <Route path='/sports'>
+          <News category="sports" />
+        </Route>
+        <Footer/>
       </>
     )
   }
