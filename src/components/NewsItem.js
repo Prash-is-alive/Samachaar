@@ -13,11 +13,11 @@ export class NewsItem extends Component {
           <div className="card-body">
             <h5 className="card-title">{title}</h5>
             <p className="card-text">{desc}</p>
-            <p className='card-text'>
-              <figcaption class="blockquote-footer">
+            <figcaption className="blockquote-footer">
+              <p className='card-text'>
                 <cite>{author ? `By ${author}\n` : ''}{publishedAt ? ` On ${publishedAt}` : ''}</cite>
-              </figcaption>
-            </p>
+              </p>
+            </figcaption>
             <a href={url} target="_blank" rel="noreferrer noopener" className="btn btn-primary center">Read</a>
           </div>
         </div>
