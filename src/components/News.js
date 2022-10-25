@@ -310,7 +310,7 @@ export class News extends Component {
   render() {
     return (
       <>
-        <h1 className='text-center heading my-5' >SAMACHAAR - {this.state.header}</h1>
+        <h1 className='text-center heading my-5' >SAMACHAsAR - {this.state.header}</h1>
         {this.state.loading && <Spinner />}
         <div className='container d-flex justify-content-around flex-wrap align-items-center'>
           {!this.state.loading && this.state.articles.map((ele) => {
