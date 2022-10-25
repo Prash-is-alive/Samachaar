@@ -12,7 +12,7 @@ export default class App extends Component {
       <>
         <Navbar />
         <Route exact path='/'>
-          <News category="general" />
+          <News category="top" />
         </Route>
         <Route path='/business'>
           <News category="business" />

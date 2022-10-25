@@ -7,7 +7,7 @@ export class News extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            apiKey: '2b02afb772cd48fd9b145bacda77a5da',
+            apiKey: 'pub_127072b8b3713a193d43d0edbde7a07f7937e',
             articles: [],
             loading: false,
             page: 1,
@@ -20,12 +20,12 @@ export class News extends Component {
 
     async updateNews() {
         this.setState({ loading: true })
-        const url = `https://newsapi.org/v2/top-headlines?apiKey=${this.state.apiKey}&country=${this.state.country}&category=${this.props.category}&pageSize=${this.state.pageSize}&page=${this.state.page}`;
+        const url = `https://newsdata.io/api/1/news?apikey=${this.state.apiKey}&category=${this.props.category}&language=hi,en&page=${this.state.page}#`;
         let data = await fetch(url);
         let parsedData = await data.json();
         console.log(parsedData);
-        this.setState({ articles: parsedData.articles, totalResults: parsedData.totalResults, header: this.capitalizeFirstLetter(this.props.category), loading: false })
-        if (parsedData.status !== "ok")
+        this.setState({ articles: parsedData.results, totalResults: parsedData.totalResults, header: this.capitalizeFirstLetter(this.props.category), loading: false })
+        if (parsedData.status !== "success")
             this.setState({ articles: sampleOutput.articles })
     }
     async searchNews(query) {
@@ -36,12 +36,12 @@ export class News extends Component {
             return;
         }
         else {
-            const url = `https://newsapi.org/v2/everything?q=${query}&apiKey=${this.state.apiKey}`;
+            const url = `https://newsdata.io/api/1/news?apikey=${this.state.apiKey}&qInTitle=${query}&language=hi,en`;
             let data = await fetch(url);
             let parsedData = await data.json();
             console.log(parsedData);
-            this.setState({ articles: parsedData.articles, totalResults: parsedData.totalResults, loading: false })
-            if (parsedData.status !== "ok")
+            this.setState({ articles: parsedData.results, totalResults: parsedData.totalResults, loading: false })
+            if (parsedData.status !== "success")
                 this.setState({ articles: sampleOutput.articles })
             if (this.state.totalResults === 0) {
                 return <>
@@ -74,17 +74,17 @@ export class News extends Component {
                 <form className="d-flex container" role="search">
                     <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" onChange={(e) => { console.log(e.target.value); this.searchNews(e.target.value) }} />
                 </form>
+                <div className=' d-flex justify-content-between m-4'>
+                    <button type="button" className="btn btn-primary" title='Previous' disabled={this.state.page <= 1 ? true : false} onClick={this.handlePrevClick}>&larr;</button>
+                    <button type="button" className="btn btn-primary" title='Next' disabled={(this.state.page + 1 > Math.ceil(this.state.totalResults / this.state.pageSize)) ? true : false} onClick={this.handleNextClick}>&rarr;</button>
+                </div>
                 {this.state.loading && <Spinner />}
                 <div className='container d-flex justify-content-around flex-wrap align-items-center'>
                     {!this.state.loading && this.state.articles.map((ele) => {
                         return <div key={ele.url}>
-                            <NewsItem imgUrl={ele.urlToImage} title={ele.title} desc={ele.description} url={ele.url} author={ele.author} publishedAt={ele.publishedAt} name={ele.source.name} />
+                            <NewsItem imgUrl={ele.image_url} title={ele.title} desc={ele.description} url={ele.link} author={ele.creator} publishedAt={ele.pubDate} name={ele.source_id} />
                         </div>
                     })}
-                </div>
-                <div className=' d-flex justify-content-between m-4'>
-                    <button type="button" className="btn btn-primary" title='Previous' disabled={this.state.page <= 1 ? true : false} onClick={this.handlePrevClick}>&larr;</button>
-                    <button type="button" className="btn btn-primary" title='Next' disabled={(this.state.page + 1 > Math.ceil(this.state.totalResults / this.state.pageSize)) ? true : false} onClick={this.handleNextClick}>&rarr;</button>
                 </div>
 
             </>
