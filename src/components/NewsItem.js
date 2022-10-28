@@ -17,7 +17,7 @@ export class NewsItem extends Component {
             <figcaption className="card-text blockquote-footer">
               <cite>{author ? `By ${author}\n` : ''}{publishedAt ? ` On ${publishedAt}` : ''}</cite>
             </figcaption>
-            <a href={url} target="_blank" rel="noreferrer noopener" className="btn btn-primary center">Read</a>
+            <a href={url} target="_blank" rel="noreferrer noopener" className="btn btn-primary center readBtn">Read <i class="bi bi-arrow-right-circle" /></a>
           </div>
         </div>
       </>

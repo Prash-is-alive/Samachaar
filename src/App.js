@@ -14,22 +14,22 @@ export default class App extends Component {
         <Route exact path='/'>
           <News category="top" />
         </Route>
-        <Route path='/business'>
+        <Route exact path='/business'>
           <News category="business" />
         </Route>
-        <Route path='/entertainment'>
+        <Route exact path='/entertainment'>
           <News category="entertainment" />
         </Route>
-        <Route path='/technology'>
+        <Route exact path='/technology'>
           <News category="technology" />
         </Route>
-        <Route path='/health'>
+        <Route exact path='/health'>
           <News category="health" />
         </Route>
-        <Route path='/science'>
+        <Route exact path='/science'>
           <News category="science" />
         </Route>
-        <Route path='/sports'>
+        <Route exact path='/sports'>
           <News category="sports" />
         </Route>
         <Footer/>

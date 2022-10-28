@@ -7,11 +7,11 @@ export class News extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            apiKey: 'pub_127072b8b3713a193d43d0edbde7a07f7937e',
+            apiKey: 'pub_1281547c123b5e42726421f625f92ad0d2726',
             articles: [],
             loading: false,
             page: 1,
-            pageSize: 25,
+            pageSize: 50,
             header: this.capitalizeFirstLetter(this.props.category),
             country: 'in',
         }
@@ -42,12 +42,7 @@ export class News extends Component {
             console.log(parsedData);
             this.setState({ articles: parsedData.results, totalResults: parsedData.totalResults, loading: false })
             if (parsedData.status !== "success")
-                this.setState({ articles: sampleOutput.articles })
-            if (this.state.totalResults === 0) {
-                return <>
-                    NO RESULTS FOUND
-                </>
-            }
+                this.setState({ articles: sampleOutput.results })
         }
     }
 
@@ -67,17 +62,18 @@ export class News extends Component {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
+
     render() {
         return (
             <>
-                <h1 className='text-center heading my-5' >SAMACHAAR - {this.state.header}</h1>
-                <form className="d-flex container" role="search">
-                    <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" onChange={(e) => { console.log(e.target.value); this.searchNews(e.target.value) }} />
-                </form>
                 <div className=' d-flex justify-content-between m-4'>
-                    <button type="button" className="btn btn-primary" title='Previous' disabled={this.state.page <= 1 ? true : false} onClick={this.handlePrevClick}>&larr;</button>
-                    <button type="button" className="btn btn-primary" title='Next' disabled={(this.state.page + 1 > Math.ceil(this.state.totalResults / this.state.pageSize)) ? true : false} onClick={this.handleNextClick}>&rarr;</button>
+                    <button type="button" className="btn btn-primary prevBtn" title='Previous' disabled={this.state.page <= 1 ? true : false} onClick={this.handlePrevClick}><i className="bi bi-arrow-left prevArr" /></button>
+                    <form className="d-flex container" role="search">
+                        <input className="form-control" type="search" placeholder="Search Latest News Here..." aria-label="Search" onChange={(e) => { console.log(e.target.value); this.searchNews(e.target.value) }} />
+                    </form>
+                    <button type="button" className="btn btn-primary nextBtn" title='Next' disabled={(this.state.page + 1 > Math.ceil(this.state.totalResults / this.state.pageSize)) ? true : false} onClick={this.handleNextClick}><i className="bi bi-arrow-right nextArr" /></button>
                 </div>
+                <h1 className='text-center heading my-5' >SAMACHAAR - {this.state.header}</h1>
                 {this.state.loading && <Spinner />}
                 <div className='container d-flex justify-content-around flex-wrap align-items-center'>
                     {!this.state.loading && this.state.articles.map((ele) => {
