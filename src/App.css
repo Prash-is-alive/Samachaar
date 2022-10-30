@@ -63,21 +63,21 @@ body {
   ::-webkit-scrollbar {
     width: 0;
   }
-  .nextBtn{
+  .nextBtn {
     position: fixed;
     bottom: 10px;
     right: 10px;
   }
-  .nextBtn::before{
-    content: 'Next ';
+  .nextBtn::before {
+    content: "Next ";
   }
-  .prevBtn{
+  .prevBtn {
     position: fixed;
     bottom: 10px;
     left: 10px;
   }
-  .prevBtn::after{
-    content: ' Previous';
+  .prevBtn::after {
+    content: " Previous";
   }
 }
 

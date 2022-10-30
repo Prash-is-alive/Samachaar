@@ -10,7 +10,9 @@ export class NewsItem extends Component {
             {name}
           </span>
           <img
-            src={`https://source.unsplash.com/286x160/?${keywords ? keywords : title}`}
+            src={`https://source.unsplash.com/286x160/?${
+              keywords ? keywords : title
+            }`}
             className="card-img-top"
             alt="..."
           />
