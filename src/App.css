@@ -60,9 +60,6 @@ body {
     right: 0;
     z-index: 31;
   }
-  ::-webkit-scrollbar {
-    width: 0;
-  }
   .nextBtn {
     position: fixed;
     bottom: 10px;
@@ -78,6 +75,9 @@ body {
   }
   .prevBtn::after {
     content: " Previous";
+  }
+  .infinite-scroll-component {
+    overflow: visible !important;
   }
 }
 
@@ -118,4 +118,9 @@ body {
 .form-control {
   margin: 10px;
   width: 95%;
+}
+.back-to-top {
+  position: fixed;
+  bottom: 0;
+  right: 0;
 }
