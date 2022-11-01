@@ -124,3 +124,11 @@ body {
   bottom: 0;
   right: 0;
 }
+
+noscript{
+  display: flex;
+  min-width: 100vw;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+}

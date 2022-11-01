@@ -1,16 +1,17 @@
 import React, { Component, lazy } from "react";
 import Spinner from "./Spinner";
 import { Link } from "react-router-dom";
-import InfiniteScroll from "react-infinite-scroll-component";
+import { motion } from "framer-motion";
+const InfiniteScroll = lazy(()=> import("react-infinite-scroll-component"))
 const NewsItem = lazy(() => import("./NewsItem"));
 export class News extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      apiKey: "pub_1292557ffb4d71eeb2bbe0650a52986ef9dbc",
+      apiKey: "pub_12942ca4e346927c4d6333196b4d5887a56fc",
       articles: [],
       loading: false,
-      page: 1,
+      page: 0,
       pageSize: 50,
       header: this.capitalizeFirstLetter(this.props.category),
       country: "in",
@@ -20,20 +21,20 @@ export class News extends Component {
 
   async updateNews() {
     this.setState({ loading: true });
-    const url = `https://newsdata.io/api/1/news?apikey=${this.state.apiKey}&category=${this.props.category}&language=hi,en&page=${this.state.page}#`;
+    const url = `https://newsdata.io/api/1/news?apikey=${this.state.apiKey}&category=${this.props.category}&language=en&page=${this.state.page}`;
     let data = await fetch(url);
-    let parsedData = await data.json();
-    console.log(parsedData);
-    this.setState({
-      articles: parsedData.results,
-      totalResults: parsedData.totalResults,
-      header: this.capitalizeFirstLetter(this.props.category),
-      loading: false,
-    });
-    let a = document.getElementById("back-to-top").classList;
-    window.onscroll = function () {
-      a.remove("d-none");
-    };
+      let parsedData = await data.json();
+      console.log(parsedData);
+      this.setState({
+        articles: parsedData.results,
+        totalResults: parsedData.totalResults,
+        header: this.capitalizeFirstLetter(this.props.category),
+        loading: false,
+      });
+      let a = document.getElementById("back-to-top").classList;
+      window.onscroll = function () {
+        a.remove("d-none");
+      };
   }
   fetchMoreData = async () => {
     this.setState({ page: this.state.page + 1 });
@@ -80,7 +81,11 @@ export class News extends Component {
   };
   render() {
     return (
-      <>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
         <div className="container">
           <input
             className="form-control container"
@@ -135,7 +140,7 @@ export class News extends Component {
         >
           <i className="bi bi-arrow-up-circle-fill" />
         </button>
-      </>
+      </motion.div>
     );
   }
 }

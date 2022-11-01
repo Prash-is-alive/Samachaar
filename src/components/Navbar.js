@@ -4,10 +4,10 @@ export class Navbar extends Component {
   render() {
     return (
       <>
-        <nav className="navbar sticky-top navbar-expand-lg bg-light">
+        <nav className="navbar sticky-top navbar-expand-md bg-light">
           <div className="container-fluid">
             <NavLink className="navbar-brand d-md-none d-inline" to="/">
-              <i className="bi bi-newspaper"></i> Samachaar
+              <i className="bi bi-newspaper" /> Samachaar
             </NavLink>
             <button
               className="navbar-toggler"
