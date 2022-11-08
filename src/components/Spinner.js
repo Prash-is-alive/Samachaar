@@ -26,11 +26,11 @@ export class Spinner extends Component {
               <span className="placeholder col-6"></span>
             </h5>
             <p className="card-text placeholder-glow">
-              <span className="placeholder col-7"></span>
-              <span className="placeholder col-4"></span>
-              <span className="placeholder col-4"></span>
-              <span className="placeholder col-6"></span>
-              <span className="placeholder col-8"></span>
+              <span className="placeholder col-7"/>
+              <span className="placeholder col-4"/>
+              <span className="placeholder col-4"/>
+              <span className="placeholder col-6"/>
+              <span className="placeholder col-8"/>
             </p>
             <button
               tabIndex="-1"
