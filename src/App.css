@@ -1,0 +1,125 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
+
+* {
+  transition: all 0.7s;
+  box-sizing: border-box;
+}
+
+::selection {
+  color: white;
+  background: black;
+}
+
+body {
+  background-color: lightgray;
+  min-height: 100vh;
+}
+
+.navbar {
+  z-index: 30;
+  background: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 1rem;
+}
+
+@media only screen and (min-width: 991px) {
+  .card:hover {
+    transform: translate(0px, -25px);
+    box-shadow: 1px 4px 10px 0px;
+    margin: 2rem;
+    cursor: pointer;
+  }
+  .nav-link:hover {
+    translate: 0 5px;
+    transition: all 0.3s;
+  }
+
+  .active {
+    translate: 0 5px;
+    border-bottom: 1px solid black;
+  }
+
+  .card:hover .card-img-top {
+    transform: scale(1.1) translate(0, -10px);
+    z-index: 100;
+    border-radius: 1rem;
+  }
+
+  input[type="search"] {
+    width: 230px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 31;
+  }
+  .nextBtn {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+  }
+  .nextBtn::before {
+    content: "Next ";
+  }
+  .prevBtn {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+  }
+  .prevBtn::after {
+    content: " Previous";
+  }
+  .infinite-scroll-component {
+    overflow: visible !important;
+  }
+}
+.badge {
+  z-index: 1;
+}
+
+.headerLink {
+  text-decoration: none;
+  color: black;
+}
+
+.nextBtn:hover .bi-arrow-right::before {
+  transition: all 0.3s;
+  translate: 5px;
+}
+
+.prevBtn:hover .bi-arrow-left::before {
+  transition: all 0.3s;
+  transform: translate(0, -5px);
+}
+
+.card:hover .bi-arrow-right-circle::before {
+  transition: all 0.7s;
+  transform: translate(4px);
+}
+
+.card-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.readBtn {
+  border-radius: 15px;
+}
+
+.form-control {
+  margin: 10px;
+  width: 95%;
+}
+.back-to-top {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
