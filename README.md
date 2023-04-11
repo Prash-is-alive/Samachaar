@@ -8,3 +8,4 @@ The major advantage of using **ReactJS** is whenever you click on a link or chan
 
 ### The updates will keep Coming!
 ### Stay Tuned!
+# Samachaar
