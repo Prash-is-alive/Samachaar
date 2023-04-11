@@ -1,7 +1,7 @@
 import "./App.css";
 import React, { Component, lazy, Suspense } from "react";
 import Navbar from "./components/Navbar";
-import { Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Footer from "./components/Footer";
 const News = lazy(() => import("./components/News"));
 export default class App extends Component {
@@ -9,28 +9,23 @@ export default class App extends Component {
     return (
       <>
         <Navbar />
-        <Suspense fallback={<div>loading...</div>} />
-        <Route exact path="/">
-          <News category="top" />
-        </Route>
-        <Route exact path="/business">
-          <News category="business" />
-        </Route>
-        <Route exact path="/entertainment">
-          <News category="entertainment" />
-        </Route>
-        <Route exact path="/technology">
-          <News category="technology" />
-        </Route>
-        <Route exact path="/health">
-          <News category="health" />
-        </Route>
-        <Route exact path="/science">
-          <News category="science" />
-        </Route>
-        <Route exact path="/sports">
-          <News category="sports" />
-        </Route>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<News category="top" />} />
+            <Route path="/business" element={<News category="business" />} />
+            <Route
+              path="/entertainmet"
+              element={<News category="entertainment" />}
+            />
+            <Route path="/science" element={<News category="science" />} />
+            <Route path="/sports" element={<News category="sports" />} />
+            <Route path="/health" element={<News category="health" />} />
+            <Route
+              path="/technology"
+              element={<News category="technology" />}
+            />
+          </Routes>
+        </Suspense>
         <Footer />
       </>
     );
