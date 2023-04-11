@@ -7,7 +7,7 @@ export class News extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      apiKey: "pub_17336b71f4b29f8f74a8650791a5889301295",
+      apiKey: "pub_17513d12e861cead0c734556d849c7cdf0833",
       articles: [],
       loading: false,
       page: "",
