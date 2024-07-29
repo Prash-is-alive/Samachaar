@@ -16,8 +16,9 @@ export class News extends Component {
       nextPage: "",
       pageSize: 50,
       header: this.capitalizeFirstLetter(this.props.category),
-      country: "in",
+      country: "us",
       newsLimitExceeded: false,
+      theme: "light", //light , false -> dark
     };
     this.debouncedSearchNews = debounce(this.searchNews, 500);
   }
@@ -114,7 +115,21 @@ export class News extends Component {
 
   async componentDidMount() {
     this.updateNews();
+    this.applyTheme();
   }
+
+  applyTheme() {
+    const theme = localStorage.getItem("theme") || "light";
+    this.setState({ theme: theme });
+    document.body.classList.toggle("dark-mode", theme === "dark");
+  }
+
+  toggleTheme = () => {
+    const theme = localStorage.getItem("theme") === "dark" ? "light" : "dark";
+    this.setState({ theme: theme });
+    localStorage.setItem("theme", theme);
+    document.body.classList.toggle("dark-mode", theme === "dark");
+  };
 
   async componentDidUpdate(prevProps) {
     // console.log("Prev props: ", prevProps);
@@ -131,6 +146,7 @@ export class News extends Component {
   handleSearch = (event) => {
     this.debouncedSearchNews(event.target.value);
   };
+
   render() {
     document.title = `${this.state.header} - Samachaar`;
     return (
@@ -188,6 +204,21 @@ export class News extends Component {
           }}
         >
           <i className="bi bi-arrow-up-circle-fill" />
+        </button>
+        <button
+          type="button"
+          className="btn btn-primary m-2 opacity-75"
+          id="theme-toggle"
+          onClick={this.toggleTheme}
+        >
+          {" "}
+          <i
+            className={
+              this.state.theme === "light"
+                ? "bi bi-moon-stars"
+                : "bi bi-brightness-high-fill"
+            }
+          />
         </button>
       </>
     );

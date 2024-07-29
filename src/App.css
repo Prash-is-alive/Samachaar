@@ -1,7 +1,42 @@
+/* Define variables here */
+:root {
+  --primary-color: black;
+  --secondary-color: lightgray;
+  --transition-duration: 0.7s;
+  --border-radius: 1rem;
+  --bg-color: lightgray;
+  --text-color: black;
+  --navbar-bg: rgba(255, 255, 255, 0.45);
+  --card-bg: rgba(255, 255, 255, 0.25);
+  --link-color: black;
+  --button-bg: #0d6efd;
+  --button-text: black;
+  --form-bg: #fff;
+  --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* --active-color: white; */
+  --active-color: black;
+}
+
+/* Dark mode variables */
+body.dark-mode {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --navbar-bg: rgba(24, 24, 24, 0.85);
+  --card-bg: rgba(30, 30, 30, 0.85);
+  --link-color: #e0e0e0;
+  --button-bg: #333333;
+  --button-text: #ffffff;
+  --form-bg: #333333;
+  --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* --active-color: black; */
+    --active-color: white;
+}
+
+/* Import Bootstrap Icons */
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
 
+/* Global Styles */
 * {
-  transition: all 0.7s;
   box-sizing: border-box;
 }
 
@@ -11,48 +46,73 @@
 }
 
 body {
-  background-color: lightgray;
+  transition: background-color var(--transition-duration);
+  background-color: var(--bg-color);
+  color: var(--text-color);
   min-height: 100vh;
 }
 
+/* Navigation Bar */
 .navbar {
+  transition: background-color var(--transition-duration);
   z-index: 30;
-  background: rgba(255, 255, 255, 0.45) !important;
+  background: var(--navbar-bg) !important;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
   border: 1px solid rgba(255, 255, 255, 0.18);
-}
+  color: var(--text-color);
 
-.card {
-  background: rgba(255, 255, 255, 0.25);
-  border-radius: 1rem;
-}
+  .nav-link {
+    transition: all .3s;
+    color: var(--link-color);
 
-@media only screen and (min-width: 991px) {
-  .card:hover {
-    transform: translate(0px, -25px);
-    box-shadow: 1px 4px 10px 0px;
-    margin: 2rem;
-    cursor: pointer;
+    
   }
   .nav-link:hover {
     translate: 0 5px;
-    transition: all 0.3s;
+    color:var(--link-color);
   }
-
   .active {
+    color: var(--active-color) !important;
     translate: 0 5px;
-    border-bottom: 1px solid black;
+  }
+}
+
+/* Cards */
+.card {
+  transition: var(--transition-duration);
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+
+  .card-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
+  img {
+    transition: var(--transition-duration);
+  }
+}
+
+/* Media Queries (Screens wider than 991px) */
+@media only screen and (min-width: 991px) {
+  .card:hover {
+    transform: translate(0px, -25px);
+    box-shadow: var(--card-shadow);
+    margin: 2rem;
+  }
   .card:hover .card-img-top {
     transform: scale(1.1) translate(0, -10px);
     z-index: 100;
-    border-radius: 1rem;
+    border-radius: var(--border-radius);
   }
 
+  /* Additional styles for larger screens */
   input[type="search"] {
     width: 230px;
     position: fixed;
@@ -60,66 +120,53 @@ body {
     right: 0;
     z-index: 31;
   }
-  .nextBtn {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-  }
-  .nextBtn::before {
-    content: "Next ";
-  }
-  .prevBtn {
-    position: fixed;
-    bottom: 10px;
-    left: 10px;
-  }
-  .prevBtn::after {
-    content: " Previous";
-  }
+
   .infinite-scroll-component {
     overflow: visible !important;
   }
 }
+
+/* Other Styles */
 .badge {
   z-index: 1;
 }
 
 .headerLink {
   text-decoration: none;
-  color: black;
+  color: var(--link-color);
 }
-
-.nextBtn:hover .bi-arrow-right::before {
-  transition: all 0.3s;
-  translate: 5px;
-}
-
-.prevBtn:hover .bi-arrow-left::before {
-  transition: all 0.3s;
-  transform: translate(0, -5px);
+.headerLink:hover{
+  color: var(--link-color);
 }
 
 .card:hover .bi-arrow-right-circle::before {
-  transition: all 0.7s;
+  transition: transform var(--transition-duration);
   transform: translate(4px);
 }
 
-.card-text {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
+
+
 .readBtn {
+  background: var(--button-bg);
   border-radius: 15px;
 }
 
 .form-control {
+  transition: background-color var(--transition-duration);
+  border: none;
+  background: var(--form-bg);
   margin: 10px;
   width: 95%;
 }
+
 .back-to-top {
   position: fixed;
   bottom: 0;
   right: 0;
+}
+
+#theme-toggle{
+  position: fixed;
+  bottom: 0;
+  left: 0;
 }
