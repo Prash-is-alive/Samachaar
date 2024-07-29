@@ -34,7 +34,7 @@ export class Spinner extends Component {
             </p>
             <button
               tabIndex="-1"
-              className="btn btn-primary disabled placeholder col-6"
+              className="btn btn-primary disabled placeholder col-6 readBtn"
             ></button>
           </div>
         </div>

@@ -10,11 +10,14 @@
   --card-bg: rgba(255, 255, 255, 0.25);
   --link-color: black;
   --button-bg: #0d6efd;
+  --button-hover-bg: #0b5ed7;
   --button-text: black;
+  --button-hover-text: #fff;
   --form-bg: #fff;
   --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  /* --active-color: white; */
   --active-color: black;
+  --selection-bg: black;
+  --selection-txt-color: white;
 }
 
 /* Dark mode variables */
@@ -25,11 +28,14 @@ body.dark-mode {
   --card-bg: rgba(30, 30, 30, 0.85);
   --link-color: #e0e0e0;
   --button-bg: #333333;
+  --button-hover-bg: #e0e0e0;
   --button-text: #ffffff;
+  --button-hover-text: black;
   --form-bg: #333333;
   --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  /* --active-color: black; */
-    --active-color: white;
+  --active-color: white;
+  --selection-bg: white;
+  --selection-txt-color: black;
 }
 
 /* Import Bootstrap Icons */
@@ -41,8 +47,8 @@ body.dark-mode {
 }
 
 ::selection {
-  color: white;
-  background: black;
+  color: var(--selection-txt-color);
+  background: var(--selection-bg);
 }
 
 body {
@@ -65,14 +71,12 @@ body {
   color: var(--text-color);
 
   .nav-link {
-    transition: all .3s;
+    transition: all 0.3s;
     color: var(--link-color);
-
-    
   }
   .nav-link:hover {
     translate: 0 5px;
-    color:var(--link-color);
+    color: var(--link-color);
   }
   .active {
     color: var(--active-color) !important;
@@ -105,11 +109,18 @@ body {
     transform: translate(0px, -25px);
     box-shadow: var(--card-shadow);
     margin: 2rem;
-  }
-  .card:hover .card-img-top {
-    transform: scale(1.1) translate(0, -10px);
-    z-index: 100;
-    border-radius: var(--border-radius);
+
+    .readBtn {
+      width: 100%;
+      background-color: var(--button-hover-bg);
+      color: var(--button-hover-text);
+    }
+
+    .card-img-top {
+      transform: scale(1.1) translate(0, -10px);
+      z-index: 100;
+      border-radius: var(--border-radius);
+    }
   }
 
   /* Additional styles for larger screens */
@@ -135,7 +146,7 @@ body {
   text-decoration: none;
   color: var(--link-color);
 }
-.headerLink:hover{
+.headerLink:hover {
   color: var(--link-color);
 }
 
@@ -144,17 +155,26 @@ body {
   transform: translate(4px);
 }
 
-
-
 .readBtn {
+  width: 100px;
   background: var(--button-bg);
   border-radius: 15px;
+  transition: all var(--transition-duration);
 }
-
+.side-btn {
+  background-color: var(--button-bg);
+}
+.side-btn:hover {
+  background-color: var(--button-hover-bg);
+}
+.btn {
+  border: none;
+}
 .form-control {
   transition: background-color var(--transition-duration);
   border: none;
   background: var(--form-bg);
+  color: var(--text-color);
   margin: 10px;
   width: 95%;
 }
@@ -165,7 +185,7 @@ body {
   right: 0;
 }
 
-#theme-toggle{
+#theme-toggle {
   position: fixed;
   bottom: 0;
   left: 0;

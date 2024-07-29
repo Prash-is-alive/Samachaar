@@ -5,12 +5,12 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { debounce } from "lodash";
 
 const NewsItem = lazy(() => import("./NewsItem"));
+const apiKey =process.env.REACT_APP_API_KEY;
 
 export class News extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      apiKey: process.env.REACT_APP_API_KEY,
       articles: [],
       loading: false,
       nextPage: "",
@@ -26,7 +26,7 @@ export class News extends Component {
   async updateNews() {
     this.setState({ loading: true });
 
-    const url = `https://newsdata.io/api/1/news?apikey=${this.state.apiKey}&category=${this.props.category}&language=hi,en`;
+    const url = `https://newsdata.io/api/1/news?apikey=${apiKey}&category=${this.props.category}&language=hi,en`;
     // console.log("The current url is: ", url);
 
     try {
@@ -71,7 +71,7 @@ export class News extends Component {
       this.setState({ loading: true, header: query });
       if (query.length < 3) return;
 
-      const url = `https://newsdata.io/api/1/news?apikey=${this.state.apiKey}&qInTitle=${query}&language=hi,en`;
+      const url = `https://newsdata.io/api/1/news?apikey=${apiKey}&qInTitle=${query}&language=hi,en`;
       try {
         let response = await fetch(url);
         if (response.status === 429) {
@@ -91,7 +91,7 @@ export class News extends Component {
 
   fetchMoreData = async () => {
     // console.log("fetching more data...");
-    const url = `https://newsdata.io/api/1/news?apikey=${this.state.apiKey}&category=${this.props.category}&language=hi,en&page=${this.state.nextPage}`;
+    const url = `https://newsdata.io/api/1/news?apikey=${apiKey}&category=${this.props.category}&language=hi,en&page=${this.state.nextPage}`;
     // console.log("more data is fetchd from:", url);
     try {
       let data = await fetch(url);
@@ -165,12 +165,11 @@ export class News extends Component {
             SAMACHAAR - {this.state.header}
           </Link>
         </h2>
-        {this.state.loading && <Spinner />}
         <InfiniteScroll
           dataLength={this.state.articles.length}
           next={this.fetchMoreData}
           hasMore={this.state.articles.length < this.state.totalResults}
-          loader={<Spinner />}
+          loader={this.state.loading && !this.state.newsLimitExceeded && <Spinner />}
         >
           <div className="container d-flex justify-content-around flex-wrap align-items-center">
             {!this.state.newsLimitExceeded &&
@@ -197,7 +196,7 @@ export class News extends Component {
         </InfiniteScroll>
         <button
           type="button"
-          className="btn btn-primary m-2 back-to-top opacity-75"
+          className="btn btn-primary m-2 back-to-top opacity-75 side-btn"
           id="back-to-top"
           onClick={() => {
             document.body.scrollIntoView();
@@ -207,7 +206,7 @@ export class News extends Component {
         </button>
         <button
           type="button"
-          className="btn btn-primary m-2 opacity-75"
+          className="btn btn-primary m-2 opacity-75 side-btn"
           id="theme-toggle"
           onClick={this.toggleTheme}
         >
