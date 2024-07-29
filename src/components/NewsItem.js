@@ -1,16 +1,18 @@
 import React, { Component } from "react";
-
+import placeholderImg from "../placeholderimg.png";
 export class NewsItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
       imageUrl: "",
-      defaultImageUrl: `https://via.placeholder.com/286x160?text=No+Preview+Available`, // Default image URL
+      defaultImageUrl: placeholderImg, // Default image URL
     };
   }
 
   async fetchImage(query) {
-    const url = `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=1`;
+    const url = `https://api.pexels.com/v1/search?query=${encodeURIComponent(
+      query
+    )}&per_page=1`;
 
     try {
       let response = await fetch(url, {
@@ -44,7 +46,10 @@ export class NewsItem extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.keywords !== this.props.keywords || prevProps.title !== this.props.title) {
+    if (
+      prevProps.keywords !== this.props.keywords ||
+      prevProps.title !== this.props.title
+    ) {
       const { keywords, title } = this.props;
       const query = keywords ? keywords.join(",") : title;
       this.fetchImage(query);
